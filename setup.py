@@ -63,6 +63,7 @@ setup(name='qha',
           'qha.cli',
           'qha.basic_io',
       ],
+      data_files= [('qha', ['qha/beta.f90'])],
       entry_points={
           'console_scripts': [
               'qha=qha.cli:main'

@@ -28,7 +28,6 @@ def GetLnbeta(Hfreq,Lfreq,Weights,An,T):
     Nfreq=Hfreq.shape[1]
     NT=len(T)
     Lnbeta=np.zeros(NT)
-    print(Nq,Nfreq,An,NT)
     #print(Hfreq)
     _GetLnbeta(Hfreq.ctypes.data_as(ct.POINTER(ct.c_double)),
                Lfreq.ctypes.data_as(ct.POINTER(ct.c_double)),

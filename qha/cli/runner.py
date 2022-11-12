@@ -187,7 +187,6 @@ class QHARunner(QHACommandHandler):
                 attr_name = calculation_option[idx]
                 file_name = attr_name + '.txt'
                 file_dir = results_folder / file_name
-                print("Test isotopes")
                 save_x_tp(getattr(calc, attr_name), temperature_array,
                           desired_pressures_gpa, p_sample_gpa, file_dir)
 
