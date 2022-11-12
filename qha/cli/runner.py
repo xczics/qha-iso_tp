@@ -12,6 +12,7 @@ import pathlib
 import time
 
 from qha.calculator import Calculator, SamePhDOSCalculator, DifferentPhDOSCalculator
+from qha.isotopes import IsotopesCalculator
 from qha.basic_io.out import save_x_tp, save_x_tv, save_to_output, make_starting_string, make_tp_info, make_ending_string
 from qha.settings import from_yaml
 from .handler import QHACommandHandler
@@ -40,7 +41,7 @@ class QHARunner(QHACommandHandler):
                     'T_MIN', 'NT', 'DT', 'DT_SAMPLE',
                     'P_MIN', 'NTV', 'DELTA_P', 'DELTA_P_SAMPLE',
                     'volume_ratio', 'order', 'p_min_modifier',
-                    'T4FV', 'output_directory', 'high_verbosity'):
+                    'T4FV', 'output_directory', 'high_verbosity','input_h','input_l','an','freq2THz'):
             try:
                 user_settings.update({key: settings[key]})
             except KeyError:
@@ -71,6 +72,9 @@ class QHARunner(QHACommandHandler):
             calc = DifferentPhDOSCalculator(user_settings)
             print(
                 "You have multi-configuration calculation with different phonon DOS assumed.")
+        elif calculation_type == 'iso':
+            calc = IsotopesCalculator(user_settings)
+            print("You have isotopes-configuration calculation assumed.")
         else:
             raise ValueError("The 'calculation' in your settings in not recognized! It must be one of:"
                              "'single', 'same phonon dos', 'different phonon dos'!")
@@ -123,7 +127,8 @@ class QHARunner(QHACommandHandler):
                               'Bs': 'bs_tp_gpa',
                               'alpha': 'alpha_tp',
                               'gamma': 'gamma_tp',
-                              }
+                              'iso':'isotopes'
+                              }#Add isotopes calculation
 
         file_ftv_fitted = results_folder / 'f_tv_fitted_ev_ang3.txt'
         save_x_tv(calc.f_tv_ev, temperature_array,
@@ -140,6 +145,13 @@ class QHARunner(QHACommandHandler):
         file_stv_j = results_folder / 's_tv_j.txt'
         save_x_tv(calc.s_tv_j, temperature_array,
                   calc.finer_volumes_ang3, temperature_sample, file_stv_j)
+        
+        IsoModes=['iso'] #Only iso first, add other modes later
+        if 'iso' in calc.settings['thermodynamic_properties']:
+            #Check if isotopes calculation is requested. Only in 'Iso' mode such property is supported
+            calculation_type = user_settings['calculation'].lower()
+            if calculation_type not in IsoModes:
+                raise ValueError("Isotopes calculation is only supported in 'Iso' type mode")
 
         for idx in calc.settings['thermodynamic_properties']:
             if idx in ['F', 'G', 'H', 'U']:
@@ -167,6 +179,15 @@ class QHARunner(QHACommandHandler):
                 attr_name = calculation_option[idx]
                 file_name = attr_name + '.txt'
                 file_dir = results_folder / file_name
+                save_x_tp(getattr(calc, attr_name), temperature_array,
+                          desired_pressures_gpa, p_sample_gpa, file_dir)
+            if idx in ['iso']:
+            #Add isotopes calculation
+            #Todo
+                attr_name = calculation_option[idx]
+                file_name = attr_name + '.txt'
+                file_dir = results_folder / file_name
+                print("Test isotopes")
                 save_x_tp(getattr(calc, attr_name), temperature_array,
                           desired_pressures_gpa, p_sample_gpa, file_dir)
 

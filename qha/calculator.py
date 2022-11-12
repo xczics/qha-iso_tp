@@ -42,7 +42,7 @@ class Calculator:
                         'T_MIN', 'NT', 'DT', 'DT_SAMPLE',
                         'P_MIN', 'NTV', 'DELTA_P', 'DELTA_P_SAMPLE',
                         'volume_ratio', 'order', 'p_min_modifier',
-                        'T4FV', 'output_directory', 'high_verbosity', 'qha_output')
+                        'T4FV', 'output_directory', 'high_verbosity', 'qha_output','input_h','input_l','an','freq2THz')
 
         for key in allowed_keys:
             try:

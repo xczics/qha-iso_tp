@@ -1,3 +1,10 @@
+Fork from [MineralsCloud/qha](https://github.com/MineralsCloud/qha)
+Going to add some features for personal usage:
+1. Add functions for equibrium isotopes fractionation calculations. (Done)
+2. Add APIs for calculate by import and call in python scripts, not only by commond lines. (Todo)
+
+When complete, may contribute to main branches.
+
 # qha: A Powerful Python toolkit for quasi-harmonic approximation
 
 [TOC]
