@@ -122,7 +122,10 @@ class Calculator:
         self._static_energies = static_energies
         self._frequencies = frequencies
         self._q_weights = q_weights
-
+    def set_input(self,**kwargs):
+        raise Exception('Not supported yet!')
+    def update_settings(self,**kwargs):
+        raise Exception('Not supported yet!')
     @LazyProperty
     def where_negative_frequencies(self) -> Optional[Vector]:
         """

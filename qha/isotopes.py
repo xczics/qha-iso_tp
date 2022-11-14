@@ -59,7 +59,62 @@ class IsotopesCalculator(Calculator):
         self._freql = freql
         self._an=self.settings['an']
         self._factor_freq_2_THz=self.settings['freq2THz']
-
+    def set_input(self, user_settings):
+        """
+        Set the input parameters
+        """
+        if 'formula_unit_number' not in user_settings:
+            raise KeyError(
+                "The 'formula_unit_number' option must be given in your settings!")
+        else:
+            self._formula_unit_number = user_settings['formula_unit_number']
+        if 'volumes' not in user_settings:
+            raise KeyError(
+                "The 'volumes' option must be given in your settings!")
+        else:
+            self._volumes = user_settings['volumes']
+        if 'static_energies' not in user_settings:
+            raise KeyError(
+                "The 'static_energies' option must be given in your settings!")
+        else:
+            self._static_energies = user_settings['static_energies']
+        if 'frequencies' not in user_settings:
+            raise KeyError(
+                "The 'frequencies' option must be given in your settings!")
+        else:
+            self._frequencies = user_settings['frequencies']
+        if 'q_weights' not in user_settings:
+            raise KeyError(
+                "The 'q_weights' option must be given in your settings!")
+        else:
+            self._q_weights = user_settings['q_weights']
+        if 'freqh' not in user_settings and 'freql' not in user_settings:
+            raise KeyError(
+                "The 'freqh' and 'freql' options must be given in your settings!")
+        if 'freqh' not in user_settings:
+            self._freqh = self._frequencies
+        else:
+            self._freqh = user_settings['freqh']
+        if 'freql' not in user_settings:
+            self._freql = self._frequencies
+        else:
+            self._freql = user_settings['freql']
+        if 'an' not in user_settings:
+            raise KeyError(
+                "The 'an' option must be given in your settings!")
+        else:
+            self._an = user_settings['an']
+        if 'factor_freq_2_THz' not in user_settings:
+            raise KeyError(
+                "The 'factor_freq_2_THz' option must be given in your settings!")
+        else:
+            self._factor_freq_2_THz = user_settings['factor_freq_2_THz']
+        if not qha.tools.is_monotonic_decreasing(self._volumes):
+            raise RuntimeError(
+                "Check the input file to make sure the volume decreases!")
+        pass
+    def update_settings(self,**kwargs):
+        raise Exception('Not supported yet!')
     @property
     def freqh(self):
         return self._freqh

@@ -1,18 +1,17 @@
 calculation: iso
 T_MIN: 5
-NT: 605
-DT: 3
+NT: 405
+DT: 5
 DT_SAMPLE: 10
 NTV: 300
-DELTA_P: 0.1
-DELTA_P_SAMPLE: 1
+DELTA_P: 0.05
+DELTA_P_SAMPLE: 0.5
 input: input01_Liso
 input_h: input01_Hiso
 P_MIN: 0.0
 high_verbosity: True
 thermodynamic_properties:
     - F
-    - Gcd
     - U
     - H
     - V
